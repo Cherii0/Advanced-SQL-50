@@ -1,6 +1,6 @@
 📝 # Advanced-SQL-50 
 
-<img width="573" alt="image" src="https://miro.medium.com/v2/resize:fit:1008/1*0HMd3UBqpu478hk_HbhEaA.png">
+<img width="300" alt="image" src="https://miro.medium.com/v2/resize:fit:1008/1*0HMd3UBqpu478hk_HbhEaA.png">
 
 This repository contains 50 SQL exercises from LeetCode's SQL 50 Study Plan. Each exercise includes the problem statement and its corresponding SQL solution using the MS SQL Server (T-SQL) dialect.
 
