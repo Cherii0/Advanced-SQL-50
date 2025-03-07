@@ -22,3 +22,21 @@ WHERE
 )
 ORDER BY student_id
 ```
+
+### 📌 184. Department Highest Salary
+[Question : ](https://leetcode.com/problems/department-highest-salary/description/?envType=study-plan-v2&envId=premium-sql-50)
+Write a solution to find employees who have the highest salary in each of the departments.
+
+```sql
+SELECT
+	D.name AS Department,
+	empRank.name AS Employee,
+	empRank.salary AS Salary
+FROM
+(SELECT *,
+	DENSE_RANK() OVER (PARTITION BY departmentId ORDER BY salary DESC) AS rank_
+FROM 
+	Employee) AS empRank
+JOIN Department D ON empRank.departmentId = D.id
+WHERE rank_ = 1
+```
