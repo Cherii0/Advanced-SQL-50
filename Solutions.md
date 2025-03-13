@@ -93,3 +93,25 @@ LEFT JOIN Products AS P ON R.product_id = P.product_id
 WHERE
 	ranking_ = 1
 ```
+
+### 📌 1709. Biggest Window Between Visits
+[Question : ](https://leetcode.com/problems/biggest-window-between-visits/description/?envType=study-plan-v2&envId=premium-sql-50)
+Write a solution that will, for each user_id, find out the largest window of days between each visit and the one right after it (or today if you are considering the last visit).
+
+```sql
+;WITH diff AS (
+	SELECT 
+		*,
+		DATEDIFF(day, visit_date, COALESCE(LEAD(visit_date)
+		 OVER (PARTITION BY user_id ORDER BY visit_date), '2021-1-1')) AS diff
+	FROM 
+		UserVisits
+)
+SELECT
+	user_id,
+	MAX(diff) AS biggest_window 
+FROM
+	diff
+GROUP BY
+	user_id
+```
