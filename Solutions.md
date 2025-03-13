@@ -40,3 +40,29 @@ FROM
 JOIN Department D ON empRank.departmentId = D.id
 WHERE rank_ = 1
 ```
+
+### 📌 1077. Project Employees III
+[Question : ](https://leetcode.com/problems/project-employees-iii/description/?envType=study-plan-v2&envId=premium-sql-50)
+Write a solution to report the most experienced employees in each project. In case of a tie, report all employees with the maximum number of experience years.
+
+```sql
+;WITH ranking AS (
+
+	SELECT
+		project_id,
+		P.employee_id,
+		experience_years,
+		DENSE_RANK() OVER (PARTITION BY project_id ORDER BY experience_years DESC) AS most_exp
+	FROM
+		Project AS P
+	LEFT JOIN
+		Employee AS E ON P.employee_id = E.employee_id
+)
+SELECT
+	project_id,
+	employee_id
+FROM
+	ranking
+WHERE
+	most_exp = 1
+```
