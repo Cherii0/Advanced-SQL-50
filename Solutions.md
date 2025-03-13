@@ -66,3 +66,30 @@ FROM
 WHERE
 	most_exp = 1
 ```
+
+###  📌 1596. The Most Frequently Ordered Products for Each Customer
+[Question : ](https://leetcode.com/problems/the-most-frequently-ordered-products-for-each-customer/description/?envType=study-plan-v2&envId=premium-sql-50)
+Write a solution to find the most frequently ordered product(s) for each customer.
+
+```sql
+;WITH ranking_ AS (
+	SELECT
+		*,
+		DENSE_RANK() OVER (PARTITION BY customer_id ORDER BY count_ DESC) AS ranking_
+	FROM	(	SELECT DISTINCT 
+				customer_id,
+				product_id,
+				COUNT(*) OVER (PARTITION BY customer_id, product_id) AS count_
+			FROM Orders
+		) AS temp
+) 
+SELECT 
+	R.customer_id,
+	R.product_id,
+	P.product_name
+FROM
+	ranking_ AS R
+LEFT JOIN Products AS P ON R.product_id = P.product_id
+WHERE
+	ranking_ = 1
+```
