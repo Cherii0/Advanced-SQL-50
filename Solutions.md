@@ -115,3 +115,24 @@ FROM
 GROUP BY
 	user_id
 ```
+
+### 📌 176. Second Highest Salary
+[Question : ](https://leetcode.com/problems/second-highest-salary/description/)
+Write a solution to find the second highest distinct salary from the Employee table. If there is no second highest salary, return null (return None in Pandas).
+
+```sql
+
+;WITH ranking AS (
+	SELECT 
+			*,
+			DENSE_RANK() OVER (ORDER BY salary DESC) AS ranking
+	FROM
+			Employee
+)
+SELECT COALESCE((SELECT TOP 1
+	salary 
+FROM
+	ranking
+WHERE
+	ranking.ranking = 2), NULL) AS SecondHighestSalary
+```
