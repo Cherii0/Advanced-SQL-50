@@ -136,3 +136,33 @@ FROM
 WHERE
 	ranking.ranking = 2), NULL) AS SecondHighestSalary
 ```
+
+### 📌 1164. Product Price at a Given Date
+[Question : ](https://leetcode.com/problems/product-price-at-a-given-date/description/)
+Write a solution to find the prices of all products on 2019-08-16. Assume the price of all products before any change is 10.
+
+```sql
+;WITH right_date AS (
+
+	SELECT
+			*,
+			RANK() OVER(PARTITION BY product_id ORDER BY change_date DESC) AS ranking
+	FROM
+			Products
+	WHERE
+			change_date <= '2019-08-16'
+)
+SELECT 
+		dist.product_id,
+		COALESCE(right_date.new_price, 10) AS price
+FROM 
+		(SELECT
+		*
+FROM
+		right_date
+WHERE
+		ranking = 1) AS right_date
+RIGHT JOIN (SELECT DISTINCT product_id FROM Products) AS dist ON dist.product_id = right_date.product_id
+```
+
+
